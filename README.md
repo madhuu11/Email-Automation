@@ -8,7 +8,7 @@ A Spring Boot application that automatically sends personalized birthday emails 
 - **User Management**: Add and view users with their personal details and birth dates
 - **Email Template System**: Customizable email templates with dynamic content placeholders
 - **Scheduled Execution**: Configurable scheduling using cron expressions
-- **Web Interface**: Simple UI for managing users and viewing birthday information
+- **Web Interface**: Simple UI for managing users, templates and viewing birthday information
 - **Manual Trigger**: Option to manually trigger birthday emails for testing
 
 ## Technology Stack
@@ -42,8 +42,8 @@ src/
 
 ### Clone the repository
 
-- git clone https://github.com/yourusername/birthday-email-automation.git
-- cd birthday-email-automation
+- git clone https://github.com/madhuu11/Email-Automation.git
+- cd email-automation
 
 ### Configure database
 Edit application.properties and set your MySQL connection details:
@@ -53,7 +53,7 @@ Edit application.properties and set your MySQL connection details:
 ### Configure email settings
 Add your email server details to application.properties:
 - spring.mail.username=your_email@gmail.com
-- spring.mail.password=your_password
+- spring.mail.password=your_app_password
 
 Note: get an app password if using Gmail with 2FA. https://myaccount.google.com/apppasswords
 
@@ -64,7 +64,7 @@ Note: get an app password if using Gmail with 2FA. https://myaccount.google.com/
 ## Usage
 
 - **Access the web interface**
-  Open your browser and navigate to http://localhost:8080/ui
+  Open your browser and navigate to http://localhost:8080/
 
 - **Add users**
   Navigate to "Add New User" and fill in the user's name, email, and date of birth.
@@ -75,6 +75,12 @@ Note: get an app password if using Gmail with 2FA. https://myaccount.google.com/
 - **Check today's birthdays**
   View users who have birthdays today and send them greetings.
 
+- **Add Templates**
+  Navigate to "Add New Template" and fill in the template name, subject, and message.
+
+- **View all templates**
+  See all templates with mail information.
+
 - **Scheduler configuration**
   The application is configured to check for birthdays every minute by default. You can adjust the scheduling by modifying the cron expression in JobSchedular.java.
 
@@ -82,9 +88,9 @@ Note: get an app password if using Gmail with 2FA. https://myaccount.google.com/
 
 - GET /birthday-email/send
 - GET /birthday-email/allUserDetails
-- POST /birthday-email/addUser
+- POST /birthday-email/add-user
 - GET /birthday-email/user/birthdayToday
-- GET /email-template/all
+- GET /email-template/allTemplateDetails
 - POST /email-template/addEmailTemplate
 
 ## Contact

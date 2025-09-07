@@ -18,18 +18,13 @@ public class BirthdayEmailController {
 
     // Autowire birthday email service
     @Autowired
-    private BirthdayEmailService BirthdayEmailService;
-
-    @GetMapping
-    public String home() {
-        return "index";
-    }
+    private BirthdayEmailService birthdayEmailService;
 
     // Generate get mapping /send
     @GetMapping("/send")
     public ResponseEntity<String> sendBirthdayEmail() {
         // Call send birthday email method from birthday email service
-        BirthdayEmailService.sendEmail();
+        birthdayEmailService.sendEmail();
         // Return response entity with message
         return ResponseEntity.ok("Birthday Email Sent Successfully");
     }
@@ -38,7 +33,7 @@ public class BirthdayEmailController {
     @GetMapping("/allUserDetails")
     public String getAllUserDetails(Model model) {
         // Call get all user details method from birthday email service
-        List<User> users = BirthdayEmailService.getAllUsers();
+        List<User> users = birthdayEmailService.getAllUsers();
         model.addAttribute("users", users);
         return "allUsers";
     }
@@ -54,7 +49,7 @@ public class BirthdayEmailController {
     @PostMapping("/add-user")
     public String addUser(@ModelAttribute User user) {
         // Call add user method from birthday email service
-        BirthdayEmailService.addUser(user);
+        birthdayEmailService.addUser(user);
         return "redirect:/birthday-email/allUserDetails";
     }
 
@@ -62,7 +57,7 @@ public class BirthdayEmailController {
     @GetMapping("/user/birthdayToday")
     public String getUserByBirthdayDay(Model model) {
         // Call get user by birthday day method from birthday email service
-        List<User> birthdayUsers = BirthdayEmailService.getBirthdayToday();
+        List<User> birthdayUsers = birthdayEmailService.getBirthdayToday();
         model.addAttribute("users", birthdayUsers);
         model.addAttribute("today", LocalDate.now());
         return "todayBirthday";

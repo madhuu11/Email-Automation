@@ -21,7 +21,7 @@ public class EmailTemplateController {
     private EmailTemplateService emailTemplateService;
 
     // Generate get mapping /all to get all email template details and return email template details
-    @GetMapping("/allTemplates")
+    @GetMapping("/allTemplateDetails")
     public String getAllEmailTemplateDetails(Model model) {
         // Call get all email template details method from email template service
         List<EmailTemplate> emailTemplateDetails = emailTemplateService.getAllEmailTemplates();
@@ -31,19 +31,20 @@ public class EmailTemplateController {
 
     // create get mapping /addEmailTemplate to add email template details
     @GetMapping("/addEmailTemplate")
-    public String showAddUserForm(Model model) {
+    public String showAddTemplateForm(Model model) {
         model.addAttribute("template", new EmailTemplate());
         return "addTemplate";
     }
 
     // Create post mapping /addEmailTemplate to add email template details
     @PostMapping("/addEmailTemplate")
-    public String addUser(@ModelAttribute EmailTemplate emailTemplate) {
+    public String addTemplate(@ModelAttribute EmailTemplate emailTemplate) {
         // Call add email template method from email template service
         emailTemplateService.addEmailTemplate(emailTemplate);
-        return "addTemplate";
+        return "redirect:/email-template/allTemplateDetails";
     }
 
+    /*
     // Create get mapping /get-by-id to get email template details by id and return email template details
     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<EmailTemplate> getEmailTemplateById(@PathVariable int id) {
@@ -79,5 +80,6 @@ public class EmailTemplateController {
         // Return response entity with email template details
         return ResponseEntity.ok(emailTemplate);
     }
+     */
 
 }
