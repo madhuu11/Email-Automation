@@ -1,6 +1,6 @@
-# Birthday Email Automation System
+# Email Automation System
 
-A Spring Boot application that automatically sends personalized birthday emails to users on their special day. This system uses scheduled tasks to check for birthdays daily and sends customized email greetings.
+A Spring Boot application that automatically sends personalized emails to users on their special day. This system uses scheduled tasks to check for birthdays daily and sends customized email greetings.
 
 ## Features
 

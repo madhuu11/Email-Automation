@@ -44,42 +44,4 @@ public class EmailTemplateController {
         return "redirect:/email-template/allTemplateDetails";
     }
 
-    /*
-    // Create get mapping /get-by-id to get email template details by id and return email template details
-    @GetMapping("/get-by-id/{id}")
-    public ResponseEntity<EmailTemplate> getEmailTemplateById(@PathVariable int id) {
-        // Call get email template by id method from email template service
-        EmailTemplate emailTemplate = emailTemplateService.getEmailTemplateById(id);
-        // Return response entity with email template details
-        return ResponseEntity.ok(emailTemplate);
-    }
-
-    // Create put mapping /update to update email template details and return nothing
-    @PutMapping("/update")
-    public ResponseEntity<Void> updateEmailTemplate(@RequestBody EmailTemplate emailTemplate) {
-        // Call update email template method from email template service
-        emailTemplateService.updateEmailTemplate(emailTemplate);
-        // Return response entity with message
-        return ResponseEntity.ok().build();
-    }
-
-    // Create delete mapping /delete to delete email template details and return nothing
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteEmailTemplate(@PathVariable int id) {
-        // Call delete email template method from email template service
-        emailTemplateService.deleteEmailTemplate(id);
-        // Return response entity with message
-        return ResponseEntity.ok().build();
-    }
-
-    //create get mapping /get-by-name to get email template details by name and return email template details
-    @GetMapping("/get-by-name/{templateName}")
-    public ResponseEntity<EmailTemplate> getEmailTemplateByName(@PathVariable String templateName) {
-        // Call get email template by name method from email template service
-        EmailTemplate emailTemplate = emailTemplateService.getEmailTemplateByName(templateName);
-        // Return response entity with email template details
-        return ResponseEntity.ok(emailTemplate);
-    }
-     */
-
 }
