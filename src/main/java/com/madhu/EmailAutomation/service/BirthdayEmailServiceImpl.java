@@ -1,4 +1,4 @@
-package com.madhu.EmailAutomation.Service;
+package com.madhu.EmailAutomation.service;
 
 import com.madhu.EmailAutomation.entity.EmailTemplate;
 import com.madhu.EmailAutomation.entity.User;

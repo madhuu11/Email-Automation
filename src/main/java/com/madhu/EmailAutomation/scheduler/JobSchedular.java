@@ -1,12 +1,10 @@
-package com.madhu.EmailAutomation.Scheduler;
+package com.madhu.EmailAutomation.scheduler;
 //add the required imports
-import com.madhu.EmailAutomation.Service.BirthdayEmailService;
+import com.madhu.EmailAutomation.service.BirthdayEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component

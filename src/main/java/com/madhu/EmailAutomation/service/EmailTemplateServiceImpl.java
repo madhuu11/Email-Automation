@@ -1,4 +1,4 @@
-package com.madhu.EmailAutomation.Service;
+package com.madhu.EmailAutomation.service;
 
 //generate email template service implementation class which implements email template service interface
 import com.madhu.EmailAutomation.entity.EmailTemplate;
