@@ -32,17 +32,21 @@
             <th>Template Name</th>
             <th>Subject</th>
             <th>Body</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${templates.empty}">
-            <td colspan="4" class="text-center">No templates Available</td>
+            <td colspan="5" class="text-center">No templates Available</td>
         </tr>
         <tr th:each="template : ${templates}">
             <td th:text="${template.id}"></td>
             <td th:text="${template.templateName}"></td>
             <td th:text="${template.subject}"></td>
             <td th:text="${template.body}"></td>
+            <td>
+                <a th:href="@{'/email-template/delete-template/' + ${template.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this template?');">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

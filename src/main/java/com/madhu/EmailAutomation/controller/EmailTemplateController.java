@@ -1,11 +1,9 @@
 package com.madhu.EmailAutomation.controller;
 
 //generate rest controller email template controller class with request mapping /email-template
-import com.madhu.EmailAutomation.Service.EmailTemplateService;
+import com.madhu.EmailAutomation.service.EmailTemplateService;
 import com.madhu.EmailAutomation.entity.EmailTemplate;
-import com.madhu.EmailAutomation.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +31,7 @@ public class EmailTemplateController {
     @GetMapping("/addEmailTemplate")
     public String showAddTemplateForm(Model model) {
         model.addAttribute("template", new EmailTemplate());
+        model.addAttribute("categories", com.madhu.EmailAutomation.util.Category.values());
         return "addTemplate";
     }
 
@@ -41,6 +40,13 @@ public class EmailTemplateController {
     public String addTemplate(@ModelAttribute EmailTemplate emailTemplate) {
         // Call add email template method from email template service
         emailTemplateService.addEmailTemplate(emailTemplate);
+        return "redirect:/email-template/allTemplateDetails";
+    }
+
+    // Add delete mapping to delete email template by id
+    @GetMapping("/delete-template/{id}")
+    public String deleteTemplate(@PathVariable int id) {
+        emailTemplateService.deleteEmailTemplate(id);
         return "redirect:/email-template/allTemplateDetails";
     }
 

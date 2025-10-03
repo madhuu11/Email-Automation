@@ -21,4 +21,11 @@ public class JobSchedular {
         BirthdayEmailService.sendEmail();
         System.out.println("Cron Task :: Execution End Time - " + LocalDateTime.now());
     }
+    // Scheduled job for anniversary emails (e.g., daily at 2:50pm)
+    @Scheduled(cron = "0 50 14 * * ?")
+    public void scheduleAnniversaryEmailTask() {
+        System.out.println("Anniversary Cron Task :: Execution Start Time - " + LocalDateTime.now());
+        BirthdayEmailService.sendAnniversaryEmail();
+        System.out.println("Anniversary Cron Task :: Execution End Time - " + LocalDateTime.now());
+    }
 }

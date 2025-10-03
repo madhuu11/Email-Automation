@@ -44,6 +44,14 @@
                         <input type="text" class="form-control" id="message" th:field="*{body}" required>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" th:field="*{category}">
+                            <option value="" selected>Generic (All Categories)</option>
+                            <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                        </select>
+                    </div>
+
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">Add Template</button>
                         <a href="/email-template/allTemplates" class="btn btn-secondary">Cancel</a>

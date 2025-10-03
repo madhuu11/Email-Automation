@@ -1,6 +1,9 @@
 package com.madhu.EmailAutomation.entity;
 //define entity class for email template with id, templateName, subject, body and with required annotations
+import com.madhu.EmailAutomation.util.Category;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,5 +23,8 @@ public class EmailTemplate {
     private String templateName;
     private String subject;
     private String body;
+
+    @Enumerated(EnumType.STRING)
+    private Category category; // Optional: null means generic template
 
 }

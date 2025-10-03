@@ -13,6 +13,11 @@ public interface BirthdayEmailService {
     List<User> getBirthdayToday();
     //add method to add user
     void addUser(User user);
+    // add method to delete user by id
+    void deleteUserById(int id);
+    // Add method to get users whose anniversary is today
+    List<User> getAnniversaryToday();
+    // Add method to send anniversary emails
+    String sendAnniversaryEmail();
 
 }
-

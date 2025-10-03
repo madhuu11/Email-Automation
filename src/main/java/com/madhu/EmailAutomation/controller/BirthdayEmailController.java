@@ -1,7 +1,8 @@
 package com.madhu.EmailAutomation.controller;
 
-import com.madhu.EmailAutomation.Service.BirthdayEmailService;
+import com.madhu.EmailAutomation.service.BirthdayEmailService;
 import com.madhu.EmailAutomation.entity.User;
+import com.madhu.EmailAutomation.util.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,7 @@ public class BirthdayEmailController {
     @GetMapping("/add-user")
     public String showAddUserForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("categories", Category.values());
         return "addUser";
     }
 
@@ -61,6 +63,40 @@ public class BirthdayEmailController {
         model.addAttribute("users", birthdayUsers);
         model.addAttribute("today", LocalDate.now());
         return "todayBirthday";
+    }
+
+    // Get users whose anniversary is today
+    @GetMapping("/user/anniversaryToday")
+    public String getUserByAnniversaryDay(Model model) {
+        List<User> anniversaryUsers = birthdayEmailService.getAnniversaryToday();
+        model.addAttribute("users", anniversaryUsers);
+        model.addAttribute("today", LocalDate.now());
+        return "todayAnniversary";
+    }
+
+    // Combined today's celebrations (birthdays and anniversaries)
+    @GetMapping("/todayCelebrations")
+    public String getTodayCelebrations(Model model) {
+        List<User> birthdayUsers = birthdayEmailService.getBirthdayToday();
+        List<User> anniversaryUsers = birthdayEmailService.getAnniversaryToday();
+        model.addAttribute("birthdayUsers", birthdayUsers);
+        model.addAttribute("anniversaryUsers", anniversaryUsers);
+        model.addAttribute("today", LocalDate.now());
+        return "todayCelebrations";
+    }
+
+    // Add delete mapping to delete user by id
+    @GetMapping("/delete-user/{id}")
+    public String deleteUser(@PathVariable int id) {
+        birthdayEmailService.deleteUserById(id);
+        return "redirect:/birthday-email/allUserDetails";
+    }
+
+    // Manual trigger for anniversary emails
+    @GetMapping("/sendAnniversary")
+    public ResponseEntity<String> sendAnniversaryEmail() {
+        birthdayEmailService.sendAnniversaryEmail();
+        return ResponseEntity.ok("Anniversary Email Sent Successfully");
     }
 
 }

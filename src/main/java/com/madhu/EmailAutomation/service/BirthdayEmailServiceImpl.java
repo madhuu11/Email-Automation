@@ -32,11 +32,17 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
         List<User> users = getBirthdayToday();
         //if users list is not empty
         if (!users.isEmpty()) {
-            //iterate through the list of users
-            //get the email template by name from the repository and store it on email template
-            EmailTemplate emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateName("birthday");
             for (User user : users) {
-                //call the replace place holder method to replace the place holder with user details
+                // Try to find a category-specific template first
+                EmailTemplate emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategory("birthday", user.getCategory());
+                // If not found, fall back to generic template
+                if (emailTemplate == null) {
+                    emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategoryIsNull("birthday");
+                }
+                if (emailTemplate == null) {
+                    System.out.println("No email template found for user: " + user.getEmail());
+                    continue;
+                }
                 String message = replacePlaceHolders(emailTemplate.getBody(), user);
                 //call the replace place holder method to replace the place holder with user details for subject
                 String subject = replacePlaceHolders(emailTemplate.getSubject(), user);
@@ -94,5 +100,45 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
     public void addUser(User user) {
         //create user data and add to the database
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUserById(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> getAnniversaryToday() {
+        LocalDate today = LocalDate.now();
+        int month = today.getMonthValue();
+        int day = today.getDayOfMonth();
+        return userRepository.findByAnniversaryMonthAndAnniversaryDay(month, day);
+    }
+
+    @Override
+    public String sendAnniversaryEmail() {
+        List<User> users = getAnniversaryToday();
+        if (!users.isEmpty()) {
+            for (User user : users) {
+                // Try to find a category-specific template first
+                EmailTemplate emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategory("anniversary", user.getCategory());
+                // If not found, fall back to generic template
+                if (emailTemplate == null) {
+                    emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategoryIsNull("anniversary");
+                }
+                if (emailTemplate == null) {
+                    System.out.println("No anniversary email template found for user: " + user.getEmail());
+                    continue;
+                }
+                String message = replacePlaceHolders(emailTemplate.getBody(), user);
+                String subject = replacePlaceHolders(emailTemplate.getSubject(), user);
+                System.out.println("Sending anniversary email to : " + user.getEmail());
+                System.out.println(message);
+                sendMail(user, subject, message);
+                System.out.println("Anniversary email sent to " + user.getEmail());
+            }
+            return "Anniversary emails sent successfully";
+        }
+        return null;
     }
 }
