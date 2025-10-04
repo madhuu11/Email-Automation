@@ -6,7 +6,7 @@ import java.util.List;
 
 //generate birthday email service interface with sendEmail method
 public interface BirthdayEmailService {
-    String sendEmail();
+    String sendBirthdayEmail();
     //add method to get all users and returns list of users
     List<User> getAllUsers();
     //add method to get User birthday today and returns list of users

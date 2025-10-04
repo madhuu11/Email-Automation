@@ -4,6 +4,7 @@ import com.madhu.EmailAutomation.entity.EmailTemplate;
 import com.madhu.EmailAutomation.entity.User;
 import com.madhu.EmailAutomation.repository.EmailTemplateRepository;
 import com.madhu.EmailAutomation.repository.UserRepository;
+import com.madhu.EmailAutomation.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public String sendEmail() {
+    public String sendBirthdayEmail() {
         //get birthday today
         List<User> users = getBirthdayToday();
         //if users list is not empty
@@ -51,8 +52,8 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
                 System.out.println("Sending email to : " + user.getEmail());
                 System.out.println(message);
 
-                //sends email
-                sendMail(user, subject, message);
+                // Use EmailUtil to send mail
+                EmailUtil.sendMail(javaMailSender, user.getEmail(), subject, message);
 
                 //print the email sent to user email
                 System.out.println("Email sent to " + user.getEmail());
@@ -69,18 +70,6 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
         //replace the place holder with user email
         message = message.replace("{email}", user.getEmail());
         return message;
-    }
-
-    //generate send mail method to send email to user using simpleMailMessage
-    private void sendMail(User user, String subject, String message) {
-        //create a simple mail message object
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        //set the to, subject and message
-        mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message);
-        //send the email
-        javaMailSender.send(mailMessage);
     }
 
     @Override
@@ -134,7 +123,7 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
                 String subject = replacePlaceHolders(emailTemplate.getSubject(), user);
                 System.out.println("Sending anniversary email to : " + user.getEmail());
                 System.out.println(message);
-                sendMail(user, subject, message);
+                EmailUtil.sendMail(javaMailSender, user.getEmail(), subject, message);
                 System.out.println("Anniversary email sent to " + user.getEmail());
             }
             return "Anniversary emails sent successfully";

@@ -12,4 +12,3 @@ public interface EmailTemplateRepository extends JpaRepository<EmailTemplate, In
     EmailTemplate findEmailTemplateByTemplateNameAndCategory(String templateName, Category category);
     EmailTemplate findEmailTemplateByTemplateNameAndCategoryIsNull(String templateName);
 }
-

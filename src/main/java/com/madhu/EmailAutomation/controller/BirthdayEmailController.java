@@ -25,7 +25,7 @@ public class BirthdayEmailController {
     @GetMapping("/send")
     public ResponseEntity<String> sendBirthdayEmail() {
         // Call send birthday email method from birthday email service
-        birthdayEmailService.sendEmail();
+        birthdayEmailService.sendBirthdayEmail();
         // Return response entity with message
         return ResponseEntity.ok("Birthday Email Sent Successfully");
     }

@@ -1,6 +1,7 @@
 package com.madhu.EmailAutomation.scheduler;
 //add the required imports
 import com.madhu.EmailAutomation.service.BirthdayEmailService;
+import com.madhu.EmailAutomation.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,15 @@ public class JobSchedular {
     @Autowired
     private BirthdayEmailService BirthdayEmailService;
 
+    @Autowired
+    private EventService eventService;
+
     // a cron expression is run every 5 min to verify the scheduler is working, use (cron = "0 0/5 * ? * *")
     @Scheduled(cron = "0 45 14 * * ?")//Runs every day at 2:45pm everyday
     public void scheduleTaskWithCronExpression() {
         // call service method sendEmail
         System.out.println("Cron Task :: Execution Start Time - " + LocalDateTime.now());
-        BirthdayEmailService.sendEmail();
+        BirthdayEmailService.sendBirthdayEmail();
         System.out.println("Cron Task :: Execution End Time - " + LocalDateTime.now());
     }
     // Scheduled job for anniversary emails (e.g., daily at 2:50pm)
@@ -27,5 +31,12 @@ public class JobSchedular {
         System.out.println("Anniversary Cron Task :: Execution Start Time - " + LocalDateTime.now());
         BirthdayEmailService.sendAnniversaryEmail();
         System.out.println("Anniversary Cron Task :: Execution End Time - " + LocalDateTime.now());
+    }
+    // Scheduled job for event emails (e.g., daily at 2:55pm)
+    @Scheduled(cron = "0 55 14 * * ?")
+    public void scheduleEventEmailTask() {
+        System.out.println("Event Email Cron Task :: Execution Start Time - " + LocalDateTime.now());
+        eventService.sendEventEmailsForToday();
+        System.out.println("Event Email Cron Task :: Execution End Time - " + LocalDateTime.now());
     }
 }
