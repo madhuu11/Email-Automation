@@ -8,15 +8,16 @@ import com.madhu.EmailAutomation.util.EmailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-//import simple mail message
-import org.springframework.mail.SimpleMailMessage;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 //generate birthday email service implementation class and implement the sendEmail method
 @Service
 public class BirthdayEmailServiceImpl implements BirthdayEmailService {
+    private static final Logger logger = LoggerFactory.getLogger(BirthdayEmailServiceImpl.class);
     //autowired user repository
     @Autowired
     UserRepository userRepository;
@@ -41,7 +42,7 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
                     emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategoryIsNull("birthday");
                 }
                 if (emailTemplate == null) {
-                    System.out.println("No email template found for user: " + user.getEmail());
+                    logger.warn("No email template found for user: {}", user.getEmail());
                     continue;
                 }
                 String message = replacePlaceHolders(emailTemplate.getBody(), user);
@@ -49,18 +50,18 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
                 String subject = replacePlaceHolders(emailTemplate.getSubject(), user);
 
                 // print the email message
-                System.out.println("Sending email to : " + user.getEmail());
-                System.out.println(message);
+                logger.info("Sending email to : {}", user.getEmail());
+                logger.debug(message);
 
                 // Use EmailUtil to send mail
                 EmailUtil.sendMail(javaMailSender, user.getEmail(), subject, message);
 
                 //print the email sent to user email
-                System.out.println("Email sent to " + user.getEmail());
+                logger.info("Email sent to {}", user.getEmail());
             }
-            return "Email sent successfully";
+            return "Birthday emails sent successfully";
         }
-        return null;
+        return "No birthdays today";
     }
 
     //create a method to replace place holder with user details
@@ -109,25 +110,28 @@ public class BirthdayEmailServiceImpl implements BirthdayEmailService {
         List<User> users = getAnniversaryToday();
         if (!users.isEmpty()) {
             for (User user : users) {
-                // Try to find a category-specific template first
                 EmailTemplate emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategory("anniversary", user.getCategory());
-                // If not found, fall back to generic template
                 if (emailTemplate == null) {
                     emailTemplate = emailTemplateRepository.findEmailTemplateByTemplateNameAndCategoryIsNull("anniversary");
                 }
                 if (emailTemplate == null) {
-                    System.out.println("No anniversary email template found for user: " + user.getEmail());
+                    logger.warn("No anniversary email template found for user: {}", user.getEmail());
                     continue;
                 }
                 String message = replacePlaceHolders(emailTemplate.getBody(), user);
                 String subject = replacePlaceHolders(emailTemplate.getSubject(), user);
-                System.out.println("Sending anniversary email to : " + user.getEmail());
-                System.out.println(message);
+                logger.info("Sending anniversary email to : {}", user.getEmail());
+                logger.debug(message);
                 EmailUtil.sendMail(javaMailSender, user.getEmail(), subject, message);
-                System.out.println("Anniversary email sent to " + user.getEmail());
+                logger.info("Anniversary email sent to {}", user.getEmail());
             }
             return "Anniversary emails sent successfully";
         }
-        return null;
+        return "No anniversaries today";
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

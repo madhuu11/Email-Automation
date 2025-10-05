@@ -49,6 +49,7 @@
             <td th:text="${user.anniversary != null ? #temporals.format(user.anniversary, 'dd-MM-yyyy') : '-'}"></td>
             <td th:text="${user.category}"></td>
             <td>
+                <a th:href="@{'/birthday-email/edit-user/' + ${user.id}}" class="btn btn-primary btn-sm me-1">Edit</a>
                 <a th:href="@{'/birthday-email/delete-user/' + ${user.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
             </td>
         </tr>

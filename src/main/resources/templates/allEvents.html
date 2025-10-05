@@ -7,6 +7,12 @@
 </head>
 <body>
 <div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">All Events</li>
+        </ol>
+    </nav>
     <h1 class="mb-4">All Events</h1>
     <a href="/events/add" class="btn btn-success mb-3">+ Add New Event</a>
     <table class="table table-striped table-hover">
@@ -16,7 +22,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Location</th>
-            <th>Template ID</th>
+            <th>Template</th>
             <th>Category</th>
             <th>Email Sent</th>
             <th>Actions</th>
@@ -31,12 +37,13 @@
             <td th:text="${event.title}"></td>
             <td th:text="${event.description}"></td>
             <td th:text="${event.location}"></td>
-            <td th:text="${event.template_id}"></td>
+            <td th:text="${event.templateName}"></td>
             <td th:text="${event.category}"></td>
             <td th:text="${event.emailSent} ? 'Yes' : 'No'"></td>
             <td>
                 <a th:href="@{'/events/edit/' + ${event.id}}" class="btn btn-primary btn-sm">Edit</a>
                 <a th:href="@{'/events/delete/' + ${event.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                <a th:href="@{'/events/sendMail/' + ${event.id}}" class="btn btn-info btn-sm">Send Mail</a>
             </td>
         </tr>
         </tbody>

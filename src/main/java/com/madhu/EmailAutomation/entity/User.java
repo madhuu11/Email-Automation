@@ -10,6 +10,7 @@ import jakarta.persistence.EnumType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -23,7 +24,9 @@ public class User {
     private int id;
     private String name;
     private String email;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate anniversary;
 
     @Enumerated(EnumType.STRING)

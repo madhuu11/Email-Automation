@@ -19,5 +19,7 @@ public interface BirthdayEmailService {
     List<User> getAnniversaryToday();
     // Add method to send anniversary emails
     String sendAnniversaryEmail();
+    // Add method to get user by id
+    User getUserById(int id);
 
 }

@@ -10,4 +10,5 @@ public interface EventService {
     void updateEvent(Event event);
     void deleteEvent(int id);
     void sendEventEmailsForToday();
+    void sendMailForEvent(int id);
 }

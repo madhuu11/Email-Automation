@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE MONTH(u.anniversary) = :month AND DAY(u.anniversary) = :day")
     List<User> findByAnniversaryMonthAndAnniversaryDay(@Param("month") int month, @Param("day") int day);
+
+    List<User> findByCategory(com.madhu.EmailAutomation.util.Category category);
 }

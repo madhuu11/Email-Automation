@@ -24,10 +24,8 @@ public class BirthdayEmailController {
     // Generate get mapping /send
     @GetMapping("/send")
     public ResponseEntity<String> sendBirthdayEmail() {
-        // Call send birthday email method from birthday email service
-        birthdayEmailService.sendBirthdayEmail();
-        // Return response entity with message
-        return ResponseEntity.ok("Birthday Email Sent Successfully");
+        String result = birthdayEmailService.sendBirthdayEmail();
+        return ResponseEntity.ok(result);
     }
 
     //generate get mapping /all  to get all user details and return user details
@@ -56,23 +54,22 @@ public class BirthdayEmailController {
     }
 
     //create get mapping /user/birthdayDay to get user details by birthday day and return user details
-    @GetMapping("/user/birthdayToday")
-    public String getUserByBirthdayDay(Model model) {
-        // Call get user by birthday day method from birthday email service
-        List<User> birthdayUsers = birthdayEmailService.getBirthdayToday();
-        model.addAttribute("users", birthdayUsers);
-        model.addAttribute("today", LocalDate.now());
-        return "todayBirthday";
-    }
+    // @GetMapping("/user/birthdayToday")
+    // public String getUserByBirthdayDay(Model model) {
+    //     List<User> birthdayUsers = birthdayEmailService.getBirthdayToday();
+    //     model.addAttribute("users", birthdayUsers);
+    //     model.addAttribute("today", LocalDate.now());
+    //     return "todayBirthday";
+    // }
 
     // Get users whose anniversary is today
-    @GetMapping("/user/anniversaryToday")
-    public String getUserByAnniversaryDay(Model model) {
-        List<User> anniversaryUsers = birthdayEmailService.getAnniversaryToday();
-        model.addAttribute("users", anniversaryUsers);
-        model.addAttribute("today", LocalDate.now());
-        return "todayAnniversary";
-    }
+    // @GetMapping("/user/anniversaryToday")
+    // public String getUserByAnniversaryDay(Model model) {
+    //     List<User> anniversaryUsers = birthdayEmailService.getAnniversaryToday();
+    //     model.addAttribute("users", anniversaryUsers);
+    //     model.addAttribute("today", LocalDate.now());
+    //     return "todayAnniversary";
+    // }
 
     // Combined today's celebrations (birthdays and anniversaries)
     @GetMapping("/todayCelebrations")
@@ -95,8 +92,20 @@ public class BirthdayEmailController {
     // Manual trigger for anniversary emails
     @GetMapping("/sendAnniversary")
     public ResponseEntity<String> sendAnniversaryEmail() {
-        birthdayEmailService.sendAnniversaryEmail();
-        return ResponseEntity.ok("Anniversary Email Sent Successfully");
+        String result = birthdayEmailService.sendAnniversaryEmail();
+        return ResponseEntity.ok(result);
+    }
+
+    // Add GET mapping to load the user edit form with user data for editing birthdays/users.
+    @GetMapping("/edit-user/{id}")
+    public String showEditUserForm(@PathVariable int id, Model model) {
+        User user = birthdayEmailService.getUserById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("categories", Category.values());
+        model.addAttribute("formAction", "/birthday-email/edit-user/" + id);
+        model.addAttribute("submitLabel", "Update User");
+        model.addAttribute("formTitle", "Edit User");
+        return "addUser";
     }
 
 }

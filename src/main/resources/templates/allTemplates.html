@@ -45,6 +45,7 @@
             <td th:text="${template.subject}"></td>
             <td th:text="${template.body}"></td>
             <td>
+                <a th:href="@{'/email-template/edit-template/' + ${template.id}}" class="btn btn-primary btn-sm me-1">Edit</a>
                 <a th:href="@{'/email-template/delete-template/' + ${template.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this template?');">Delete</a>
             </td>
         </tr>

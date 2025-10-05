@@ -1,8 +1,10 @@
 package com.madhu.EmailAutomation.controller;
 
 import com.madhu.EmailAutomation.entity.Event;
+import com.madhu.EmailAutomation.repository.EmailTemplateRepository;
 import com.madhu.EmailAutomation.service.EventService;
 import com.madhu.EmailAutomation.util.Category;
+import com.madhu.EmailAutomation.util.TemplateName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,9 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private EmailTemplateRepository emailTemplateRepository;
+
     @GetMapping
     public String getAllEvents(Model model) {
         List<Event> events = eventService.getAllEvents();
@@ -27,7 +32,11 @@ public class EventController {
     public String showAddEventForm(Model model) {
         model.addAttribute("event", new Event());
         model.addAttribute("categories", Category.values());
-        return "addEvent";
+        model.addAttribute("templateNames", TemplateName.values());
+        model.addAttribute("formAction", "/events/add");
+        model.addAttribute("submitLabel", "Add Event");
+        model.addAttribute("formTitle", "Add Event");
+        return "eventForm";
     }
 
     @PostMapping("/add")
@@ -41,7 +50,11 @@ public class EventController {
         Event event = eventService.getEventById(id);
         model.addAttribute("event", event);
         model.addAttribute("categories", Category.values());
-        return "editEvent";
+        model.addAttribute("templateNames", TemplateName.values());
+        model.addAttribute("formAction", "/events/edit/" + id);
+        model.addAttribute("submitLabel", "Update Event");
+        model.addAttribute("formTitle", "Edit Event");
+        return "eventForm";
     }
 
     @PostMapping("/edit/{id}")
@@ -54,6 +67,12 @@ public class EventController {
     @GetMapping("/delete/{id}")
     public String deleteEvent(@PathVariable int id) {
         eventService.deleteEvent(id);
+        return "redirect:/events";
+    }
+
+    @GetMapping("/sendMail/{id}")
+    public String sendMailForEvent(@PathVariable int id) {
+        eventService.sendMailForEvent(id);
         return "redirect:/events";
     }
 }

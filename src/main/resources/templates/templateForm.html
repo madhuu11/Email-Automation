@@ -2,16 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Template - Email Automation</title>
+    <title th:text="${formTitle}">Template Form</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            padding: 20px;
-        }
-        .form-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        body { padding: 20px; }
+        .form-container { max-width: 600px; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -19,22 +14,22 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-            <li class="breadcrumb-item"><a href="/email-template/allTemplates">All Templates</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add Template</li>
+            <li class="breadcrumb-item"><a href="/email-template/allTemplateDetails">All Templates</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${formTitle}"></li>
         </ol>
     </nav>
-
-    <h1 class="mb-4">Add New Template</h1>
-
+    <h1 class="mb-4" th:text="${formTitle}"></h1>
     <div class="form-container">
         <div class="card">
             <div class="card-body">
-                <form th:action="@{/email-template/addEmailTemplate}" th:object="${template}" method="post">
+                <form th:action="@{${formAction}}" th:object="${template}" method="post">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Template Name</label>
-                        <input type="text" class="form-control" id="name" th:field="*{templateName}" required>
+                        <label for="templateName" class="form-label">Template Name</label>
+                        <select class="form-select" id="templateName" th:field="*{templateName}" required>
+                            <option value="" disabled hidden>Select template name</option>
+                            <option th:each="tname : ${templateNames}" th:value="${tname}" th:text="${tname}" th:selected="${tname} == ${template.templateName}"></option>
+                        </select>
                     </div>
-
                     <div class="mb-3">
                         <label for="subject" class="form-label">Subject</label>
                         <input type="text" class="form-control" id="subject" th:field="*{subject}" required>
@@ -43,7 +38,6 @@
                         <label for="message" class="form-label">Message</label>
                         <input type="text" class="form-control" id="message" th:field="*{body}" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
                         <select class="form-select" id="category" th:field="*{category}">
@@ -51,10 +45,9 @@
                             <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
                         </select>
                     </div>
-
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Add Template</button>
-                        <a href="/email-template/allTemplates" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary" th:text="${submitLabel}">Save</button>
+                        <a href="/email-template/allTemplateDetails" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>
@@ -63,3 +56,4 @@
 </div>
 </body>
 </html>
+
